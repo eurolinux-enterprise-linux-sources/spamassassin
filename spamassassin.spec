@@ -57,7 +57,7 @@ Requires: portreserve
 Summary: Spam filter for email which can be invoked from mail delivery agents
 Name: spamassassin
 Version: 3.3.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: ASL 2.0
 Group: Applications/Internet
 URL: http://spamassassin.apache.org/
@@ -76,7 +76,7 @@ Source11: spamassassin-official.conf
 Source12: sought.conf
 Source13: README.RHEL.Fedora
 # Patches 0-99 are RH specific
-# none yet
+Patch1:   spamassassin-HTTPSMismatch.pm
 # Patches 100+ are SVN backports (DO NOT REUSE!)
 # end of patches
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -146,7 +146,7 @@ To filter spam for all users, add that line to /etc/procmailrc
 %prep
 %setup -q -n Mail-SpamAssassin-%{version}
 # Patches 0-99 are RH specific
-# none yet
+%patch1 -p1 -b .httpsmismatch
 # Patches 100+ are SVN backports (DO NOT REUSE!)
 
 # end of patches
@@ -272,6 +272,9 @@ fi
 exit 0
 
 %changelog
+* Thu Nov 28 2013 Petr Lautrbach <plautrba@redhat.com> 3.3.1-3
+- avoid using array of cleaned uris <fkrska@redhat.com> (#892348)
+
 * Tue Mar 16 2010 Warren Togami <wtogami@redhat.com> - 3.3.1-2
 - 3.3.1 take 2
 
