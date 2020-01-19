@@ -69,7 +69,7 @@ Summary: Spam filter for email which can be invoked from mail delivery agents
 Name: spamassassin
 Version: 3.3.2
 #Release: 0.8.%{prerev}%{?dist}
-Release: 15%{?dist}
+Release: 18%{?dist}
 License: ASL 2.0
 Group: Applications/Internet
 URL: http://spamassassin.apache.org/
@@ -93,7 +93,9 @@ Source13: README.RHEL.Fedora
 Source14: spamassassin.service
 %endif
 # Patches 0-99 are RH specific
-# none yet
+Patch1:   spamassassin-HTTPSMismatch.pm
+# add note about rawbody split (#892350)
+Patch2:   spamassassin-rawbody-split-documentation.patch
 # Patches 100+ are SVN backports (DO NOT REUSE!)
 # end of patches
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
@@ -172,7 +174,8 @@ To filter spam for all users, add that line to /etc/procmailrc
 %prep
 %setup -q -n Mail-SpamAssassin-%{version}
 # Patches 0-99 are RH specific
-# none yet
+%patch1 -p1
+%patch2 -p1
 # Patches 100+ are SVN backports (DO NOT REUSE!)
 
 # end of patches
@@ -364,6 +367,16 @@ fi
 %endif
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 3.3.2-18
+- Mass rebuild 2014-01-24
+
+* Tue Jan 14 2014 Petr Lautrbach <plautrba@redhat.com> 3.3.2-17
+- document rawbody's split into chunks (#892350)
+- avoid using array of cleaned uris <fkrska@redhat.com> (#892348)
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 3.3.2-16
+- Mass rebuild 2013-12-27
+
 * Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.3.2-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
