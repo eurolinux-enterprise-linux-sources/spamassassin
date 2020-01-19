@@ -62,20 +62,20 @@ Requires: portreserve
 %define real_name Mail-SpamAssassin
 %{!?perl_vendorlib: %define perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)}
 
-%global saversion 3.003002
+%global saversion 3.004000
 #%global prerev rc2
 
 Summary: Spam filter for email which can be invoked from mail delivery agents
 Name: spamassassin
-Version: 3.3.2
+Version: 3.4.0
 #Release: 0.8.%{prerev}%{?dist}
-Release: 18%{?dist}
+Release: 1%{?dist}
 License: ASL 2.0
 Group: Applications/Internet
 URL: http://spamassassin.apache.org/
 Source0: http://www.apache.org/dist/%{name}/%{real_name}-%{version}.tar.bz2
 #Source0: %{real_name}-%{version}-%{prerev}.tar.bz2
-Source1: %{real_name}-rules-%{version}-r1104058.tar.gz
+Source1: http://www.apache.org/dist/%{name}/%{real_name}-rules-%{version}.r1565117.tgz
 #Source1: %{real_name}-rules-%{version}.%{prerev}.tgz
 Source2: redhat_local.cf
 Source3: spamassassin-default.rc
@@ -367,6 +367,10 @@ fi
 %endif
 
 %changelog
+* Fri Sep 26 2014 Petr Lautrbach <plautrba@redhat.com> 3.4.0-1
+- update to 3.4.0
+- Apply fix for amavisd and spampd reloading after rules updates. Fixes bug #1145654
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 3.3.2-18
 - Mass rebuild 2014-01-24
 
