@@ -69,7 +69,7 @@ Summary: Spam filter for email which can be invoked from mail delivery agents
 Name: spamassassin
 Version: 3.4.0
 #Release: 0.8.%{prerev}%{?dist}
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 Group: Applications/Internet
 URL: http://spamassassin.apache.org/
@@ -97,6 +97,9 @@ Patch1:   spamassassin-HTTPSMismatch.pm
 # add note about rawbody split (#892350)
 Patch2:   spamassassin-rawbody-split-documentation.patch
 # Patches 100+ are SVN backports (DO NOT REUSE!)
+
+# https://svn.apache.org/viewvc?view=revision&revision=1572369
+Patch100: spamassassin-3.4.0-razor2-typo.patch
 # end of patches
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -177,6 +180,7 @@ To filter spam for all users, add that line to /etc/procmailrc
 %patch1 -p1
 %patch2 -p1
 # Patches 100+ are SVN backports (DO NOT REUSE!)
+%patch100 -p1
 
 # end of patches
 
@@ -367,6 +371,18 @@ fi
 %endif
 
 %changelog
+* Thu Jun 25 2015 Scientific Linux Auto Patch Process <SCIENTIFIC-LINUX-DEVEL@LISTSERV.FNAL.GOV>
+- Eliminated rpmbuild "bogus date" error due to inconsistent weekday,
+  by assuming the date is correct and changing the weekday.
+  Tue May 24 2004 --> Tue May 18 2004 or Mon May 24 2004 or Tue May 25 2004 or ....
+  Mon Jun 20 2004 --> Mon Jun 14 2004 or Sun Jun 20 2004 or Mon Jun 21 2004 or ....
+  Sun Apr 02 2005 --> Sun Mar 27 2005 or Sat Apr 02 2005 or Sun Apr 03 2005 or ....
+  Mon Mar 11 2006 --> Mon Mar 06 2006 or Sat Mar 11 2006 or Mon Mar 13 2006 or ....
+  Mon Apr 13 2007 --> Mon Apr 09 2007 or Fri Apr 13 2007 or Mon Apr 16 2007 or ....
+
+* Tue May 19 2015 Jakub Jelen <jjelen@redhat.com> 3.4.0-2
+- Fix typo in Plugin/Razor2 preventing plugin to work
+
 * Fri Sep 26 2014 Petr Lautrbach <plautrba@redhat.com> 3.4.0-1
 - update to 3.4.0
 - Apply fix for amavisd and spampd reloading after rules updates. Fixes bug #1145654
@@ -581,10 +597,12 @@ fi
 * Wed May 02 2007 Warren Togami <wtogami@redhat.com> 3.2.0-1
 - 3.2.0
 
-* Mon Apr 13 2007 Warren Togami <wtogami@redhat.com> 3.2.0-0.5.rc3
+* Fri Apr 13 2007 Warren Togami <wtogami@redhat.com> 3.2.0-0.5.rc3
+  Mon Apr 13 2007 --> Mon Apr 09 2007 or Fri Apr 13 2007 or Mon Apr 16 2007 or ....
 - 3.2.0 rc3
 
-* Mon Apr 13 2007 Warren Togami <wtogami@redhat.com> 3.2.0-0.4.rc2
+* Fri Apr 13 2007 Warren Togami <wtogami@redhat.com> 3.2.0-0.4.rc2
+  Mon Apr 13 2007 --> Mon Apr 09 2007 or Fri Apr 13 2007 or Mon Apr 16 2007 or ....
 - 3.2.0 rc2
 
 * Mon Apr 02 2007 Warren Togami <wtogami@redhat.com> 3.2.0-0.3.rc1
@@ -661,7 +679,8 @@ fi
 * Tue May 09 2006 Warren Togami <wtogami@redhat.com> - 3.0.5-4
 - Preserve timestamp and context of /etc/sysconfig/spamassassin (#178580)
 
-* Mon Mar 11 2006 Warren Togami <wtogami@redhat.com> - 3.1.1-1
+* Sat Mar 11 2006 Warren Togami <wtogami@redhat.com> - 3.1.1-1
+  Mon Mar 11 2006 --> Mon Mar 06 2006 or Sat Mar 11 2006 or Mon Mar 13 2006 or ....
 - 3.1.1
 
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 3.1.0-5
@@ -718,7 +737,8 @@ fi
 - Own /usr/share/spamassassin (#152534).
 - Drop no longer needed dependency filter script.
 
-* Sun Apr 02 2005 Warren Togami <wtogami@redhat.com> 3.0.2-7
+* Sat Apr 02 2005 Warren Togami <wtogami@redhat.com> 3.0.2-7
+  Sun Apr 02 2005 --> Sun Mar 27 2005 or Sat Apr 02 2005 or Sun Apr 03 2005 or ....
 - req DB_File (#143186)
 
 * Sat Apr 02 2005 Warren Togami <wtogami@redhat.com> 3.0.2-6
@@ -778,7 +798,8 @@ fi
 * Wed Jul 28 2004 Warren Togami <wtogami@redhat.com> - 3.0-3.pre2
 - 3.0 pre2
 
-* Mon Jun 20 2004 Warren Togami <wtogami@redhat.com> - 3.0-2.pre1
+* Sun Jun 20 2004 Warren Togami <wtogami@redhat.com> - 3.0-2.pre1
+  Mon Jun 20 2004 --> Mon Jun 14 2004 or Sun Jun 20 2004 or Mon Jun 21 2004 or ....
 - 3.0.0 pre1
 - remove unnecessary patches applied upstream
 - update krb5 backcompat patch
@@ -792,7 +813,8 @@ fi
 - #124871 more docs
 - #124872 unowned directories
 
-* Tue May 24 2004 Warren Togami <wtogami@redhat.com> - 3.0-svn20040524
+* Mon May 24 2004 Warren Togami <wtogami@redhat.com> - 3.0-svn20040524
+  Tue May 24 2004 --> Tue May 18 2004 or Mon May 24 2004 or Tue May 25 2004 or ....
 - #123432 do not start service by default
 - #122488 remove CRLF's
 - #123706 correct license

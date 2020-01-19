@@ -1,0 +1,13 @@
+diff --git a/lib/Mail/SpamAssassin/Plugin/Razor2.pm b/lib/Mail/SpamAssassin/Plugin/Razor2.pm
+index 937c8cc..e24252c 100644
+--- a/lib/Mail/SpamAssassin/Plugin/Razor2.pm
++++ b/lib/Mail/SpamAssassin/Plugin/Razor2.pm
+@@ -115,7 +115,7 @@ the results
+     setting => 'razor_timeout',
+     is_admin => 1,
+     default => 5,
+-    type => $Mail::SpamAssassin::Conf::CONF_TYPE_DURATIION,
++    type => $Mail::SpamAssassin::Conf::CONF_TYPE_DURATION,
+   });
+ 
+ =item razor_config filename
